@@ -20,11 +20,61 @@ export function draw(t, dt) {
 
     directionalLight(255, 255, 255, 1, 1, -1); //Add a white directional light
 
-    drawGrid(); //Draw the grid
+    //drawGrid(); //Draw the grid
     drawAxes(); //Draw the axes
 
-    stroke(0);  //Make the stroke black
-    strokeWeight(1); //Make it thin
 
-    box(); //Draw a box
+
+
+    gen(21)
+
+}
+
+
+
+
+
+//terrain gen test
+
+function bb1() {
+    let x = 0
+    push()
+    translate(0, 25, 0)
+    fill("grey")
+    box(500, 1, 500); //Draw a box
+    pop()
+    push()
+    translate(0, -325, 0)
+    fill("grey")
+    box(500, -1, 500); //Draw a box
+    pop()
+    push()
+    while (x < 4) {
+
+        push()
+        translate(250, -150, 0)
+        fill("yellow")
+        box(20, 350, 500)
+        pop()
+        rotateY(90)
+        x = x + 1
+    }
+    pop()
+}
+
+function gen(num) {
+    push()
+    for (let x = 0; x < num; x++) {
+        for (let y = x; y < num; y++) {
+            bb1()
+            translate(500, 0, 0)
+            bb1()
+        }
+
+       translate(0,0,500)
+
+
+
+
+    }
 }
