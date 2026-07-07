@@ -10,20 +10,22 @@ let grid = []
 
 export function setup() {
 
-    camera(300, -200, 700);
+    camera(0,-200, 50,0,-100,1000);
     grid = [
-        [2, 2, 2, 2, 2],
-        [2, 1, 1, 1, 2],
-        [2, 1, 3, 1, 1],
-        [2, 1, 1, 3, 2],
-        [2, 2, 2, 2, 2],
+        [4, 5, 6, 6, 2, 4, 6],
+        [3, 6, 2, 4, 1, 5, 3],
+        [2, 1, 1, 6, 2, 3, 1],
+        [1, 6, 2, 1, 1, 2, 1],
+        [4, 1, 1, 2, 2, 1, 3],
+        [7, 6, 1, 5, 2, 2, 5],
+        [6, 6, 2, 1, 5, 2, 7],
     ];
 }
 
 let wall;
 let tile;
 let floor;
-let mySound
+let music;
 export function preload() {
     let w = new URL(import.meta.url).pathname;
     w = w.substring(0, w.lastIndexOf("/") + 1);
@@ -34,8 +36,11 @@ export function preload() {
     let t = new URL(import.meta.url).pathname;
     t = t.substring(0, t.lastIndexOf("/") + 1);
     tile = loadImage(t + "panel.jpg");
-    //soundFormats("mp3", 'ogg');
-    //mySound = loadSound('foxy jumpscare fnaf 2.mp3');
+    soundFormats("mp3")
+    music = loadSound('/project/wandering.mp3')
+    music.setLoop(true);
+    music.playMode("untilDone")
+
 
 
 }
@@ -43,30 +48,41 @@ export function preload() {
 
 
 export function draw(t, dt) {
-    background(30, 30, 30); //Clear the background to dark grey 
+    background(198, 197, 139); //Clear the background to dark grey 
     orbitControl(); //Enable mouse movement in the scene
     ambientLight(198, 197, 139);  //Add some ambient light to the scene
 
     directionalLight(255, 255, 255, 1, 1, -1); //Add a white directional light
 
-
+    getAudioContext().resume()
+    music.play();
 
     //drawGrid(); //Draw the grid
     drawAxes(); //Draw the axes
 
     push()
-    translate(-500, 0, -500)
-    // mySound.play()
-   // backroom()
+    translate(-1560, 0, 500)
+    
+    backroom()
     pop()
-bb7()
-
+    threshold()
+    
 }
 
 
 
 
 //no walls
+
+function threshold() {
+    push()
+    translate(0,20,-11)
+    fill(80,80,80)
+    box(500,20,500)
+    pop()
+
+    
+}
 function bb1() {
     let x = 0
     push()
@@ -101,10 +117,7 @@ function bb2() {
         push()
         translate(250, -150, 0)
         texture(wall);
-        box(20, 350, 521)
-        rotateY(-180)
-        translate(-1, 0)
-        box(20, 350, 521.5)
+        backwall(20, 350, 521)
         pop()
         rotateY(90)
         x = x + 1
@@ -125,16 +138,14 @@ function bb3() {
     texture(tile)
     box(525, 1, 525);
     pop()
+    push()
     rotateY(180)
     while (x < 3) {
 
-         push()
+        push()
         translate(250, -150, 0)
         texture(wall);
-        box(20, 350, 521)
-        rotateY(-180)
-        translate(-1, 0)
-        box(20, 350, 521.5)
+        backwall(20, 350, 521)
         pop()
         rotateY(90)
         x = x + 1
@@ -144,7 +155,7 @@ function bb3() {
 }
 //x
 function bb4() {
-   let x = 0
+    let x = 0
     push()
     translate(0, 25, 0)
     texture(floor)
@@ -159,13 +170,10 @@ function bb4() {
     rotateY(90)
     while (x < 3) {
 
-         push()
+        push()
         translate(250, -150, 0)
         texture(wall);
-        box(20, 350, 521)
-        rotateY(-180)
-        translate(-1, 0)
-        box(20, 350, 521.5)
+        backwall(20, 350, 521)
         pop()
         rotateY(90)
         x = x + 1
@@ -185,15 +193,13 @@ function bb5() {
     texture(tile)
     box(525, 1, 525);
     pop()
+    push()
     while (x < 3) {
 
-         push()
+        push()
         translate(250, -150, 0)
         texture(wall);
-        box(20, 350, 521)
-        rotateY(-180)
-        translate(-1, 0)
-        box(20, 350, 521.5)
+        backwall(20, 350, 521)
         pop()
         rotateY(90)
         x = x + 1
@@ -203,7 +209,7 @@ function bb5() {
 }
 //door
 function bb6() {
-   let x = 0
+    let x = 0
     push()
     translate(0, 25, 0)
     texture(floor)
@@ -233,7 +239,7 @@ function bb6() {
 }
 
 function bb7() {
-let x = 0
+    let x = 0
     push()
     translate(0, 25, 0)
     texture(floor)
@@ -250,10 +256,7 @@ let x = 0
         push()
         translate(250, -150, 0)
         texture(wall);
-        box(20, 350, 521)
-        rotateY(-180)
-        translate(-1, 0)
-        box(20, 350, 521.5)
+        backwall(20, 350, 521)
         pop()
         rotateY(90)
         x = x + 1
@@ -264,9 +267,9 @@ let x = 0
 
 
 function backroom() {
-    for (let x = 0; x < 5; x++) {
+    for (let x = 0; x < 7; x++) {
 
-        for (let z = 0; z < 5; z++) {
+        for (let z = 0; z < 7; z++) {
             push()
             translate(x * 521, 0, z * 521)
             if (grid[x][z] == 0) {
@@ -290,7 +293,7 @@ function backroom() {
             if (grid[x][z] == 6) {
                 bb6()
             }
-             if (grid[x][z] == 7) {
+            if (grid[x][z] == 7) {
                 bb7()
             }
 
@@ -312,6 +315,25 @@ function doorway() {
     pop()
 }
 function async() { }
+
+
+
+
+function backwall(x, y, z) {
+    push()
+    texture(wall);
+    box(x, y, z)
+    rotateY(-180)
+    translate(-1, 0)
+    box(x, y, z + .5)
+    pop()
+}
+
+
+
+
+
+
 
 function bbox() {
     beginShape()
