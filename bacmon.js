@@ -9,7 +9,6 @@ window.checkPosition = function (t, player) {
     scale(.5);
     rotateY(60);
     let d = pos.minus(player).mag();
-    console.log(d);
     if (d < 600) {
         monster(t);
         f--;
