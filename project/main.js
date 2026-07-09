@@ -6,11 +6,15 @@ import { vector } from "@/utils/vec3.js";
 //We can use this to load textures or sounds
 //export function preload() {
 
+let cam
 let grid = []
-
+let position = vector(0, -170, 0);
+let veiw = vector(0, 150,0)
+let veiwR = 0
+const Look_Distance = 100
 export function setup() {
 
-    camera(0, -200, 50, 0, -100, 1000);
+    cam = createCamera()
     grid = [
         [4, 10, 10, 10, 10, 10, 4, 10, 10, 10, 10, 10, 7, 10, 4, 10, 10, 10, 10, 3],
         [9, 8, 10, 9, 8, 1, 6, 9, 13, 6, 2, 13, 8, 0, 2, 1, 8, 9, 2, 11],
@@ -81,6 +85,7 @@ export function draw(t, dt) {
     pop()
     threshold()
 
+    move(dt)
 }
 
 
@@ -558,9 +563,6 @@ function doorway() {
     box(20, 350, 141.5)
     pop()
 }
-function async() { }
-
-
 
 
 function backwall(x, y, z) {
@@ -571,46 +573,65 @@ function backwall(x, y, z) {
     translate(-1, 0)
     box(x, y, z + .5)
     pop()
+    
+}
+
+if (move)
+
+
+
+function move(dt) {
+
+//a
+   // if (keyIsDown(65)) {
+  //      position.z += 5 * Math.cos(veiwR);
+    //    position.x += 5 * Math.sin(veiwR);
+
+    //}
+//d
+  //  if (keyIsDown(68)) {
+   //     position.z -= 5 * Math.cos(veiwR)
+   //     position.x -= 5 * Math.sin(veiwR);
+
+  //  }
+//w
+    if (keyIsDown(83)) {
+        position.x -= 7 * Math.cos(veiwR);
+        position.z -= 7 * Math.sin(veiwR);
+
+    }
+//s
+    if (keyIsDown(87)) {
+        position.x += 7 * Math.cos(veiwR);
+        position.z += 7 * Math.sin(veiwR);
+
+    }
+
+    if (keyIsDown(65)) {
+        veiwR -= 1.6 * dt;
+
+    }
+
+    if (keyIsDown(68)) {
+        veiwR += 1.6 * dt;
+    }
+
+    veiw.x = 50 * Math.cos(veiwR)
+    veiw.z = 50 * Math.sin(veiwR)
+
+
+    push();
+    fill(255, 64, 255);
+    translate(position.x, -15, position.z);
+    sphere(30);
+    pop();
+
+
+    cam.setPosition(position.x, position.y, position.z)
+    cam.lookAt(veiw.x + position.x, position.y, veiw.z + position.z);
+
 }
 
 
-
-
-
-
-
-function bbox() {
-    beginShape()
-    vertex(10, 0, -10)
-    vertex(-10, 0, -10)
-    vertex(10, 0, 10)
-    endShape()
-    beginShape()
-    vertex(10, 0, 10)
-    vertex(10, 0, -10)
-    vertex(-10, 0, -10)
-    endShape()
-    beginShape()
-    vertex(10, 10, -10)
-    vertex(-10, 10, -10)
-    vertex(10, 10, 10)
-    endShape()
-    beginShape()
-    vertex(10, 10, 10)
-    vertex(10, 10, -10)
-    vertex(-10, 10, -10)
-    endShape()
-    beginShape()
-    vertex(10, 10, -10)
-    vertex(10, 10, 10)
-    vertex(-10, 0, -10)
-    endShape()
-    beginShape()
-    vertex(10, 10, -10)
-    vertex(10, 0, -10)
-    vertex()
-    endShape()
-
-}
 
 
