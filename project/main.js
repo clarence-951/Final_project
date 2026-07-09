@@ -45,21 +45,13 @@ let tile;
 let floor;
 let music;
 export function preload() {
-    let w = new URL(import.meta.url).pathname;
-    w = w.substring(0, w.lastIndexOf("/") + 1);
-    wall = loadImage(w + "backroomwall.png");
-    let f = new URL(import.meta.url).pathname;
-    f = f.substring(0, f.lastIndexOf("/") + 1);
-    floor = loadImage(f + "floor.png");
-    let t = new URL(import.meta.url).pathname;
-    t = t.substring(0, t.lastIndexOf("/") + 1);
-    tile = loadImage(t + "panel.jpg");
+    wall = loadImage("backroomwall.png");
+    floor = loadImage("floor.png");
+    tile = loadImage("panel.jpg");
     soundFormats("mp3")
-    music = loadSound('/project/wandering.mp3')
+    music = loadSound('wandering.mp3')
     music.setLoop(true);
     music.playMode("untilDone")
-
-
 
 }
 
