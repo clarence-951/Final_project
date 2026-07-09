@@ -10,7 +10,7 @@ let cam
 let grid = []
 let position = vector(0, -170, 0);
 let veiw = vector(0, 150,0)
-let veiwR = 0
+let veiwR = 190.1
 const Look_Distance = 100
 export function setup() {
 
@@ -19,7 +19,7 @@ export function setup() {
         [4, 10, 10, 10, 10, 10, 4, 10, 10, 10, 10, 10, 7, 10, 4, 10, 10, 10, 10, 3],
         [9, 8, 10, 9, 8, 1, 6, 9, 13, 6, 2, 13, 8, 0, 2, 1, 8, 9, 2, 11],
         [5, 11, 13, 6, 1, 1, 3, 0, 1, 3, 5, 7, 1, 12, 1, 2, 1, 13, 6, 3],
-        [1, 6, 1, 1, 1, 1, 1, 12, 6, 6, 3, 2, 1, 6, 4, 2, 1, 3, 1, 11],
+        [1, 6, 1, 14, 1, 1, 1, 12, 6, 6, 3, 2, 1, 6, 4, 2, 1, 3, 1, 11],
         [4, 9, 1, 8, 1, 13, 1, 1, 9, 1, 1, 8, 1, 10, 12, 1, 9, 2, 1, 11],
         [5, 1, 13, 1, 8, 7, 1, 1, 8, 0, 1, 11, 13, 9, 7, 1, 1, 1, 1, 11],
         [7, 8, 6, 3, 6, 1, 5, 1, 6, 12, 9, 3, 1, 2, 2, 1, 3, 4, 6, 3],
@@ -62,13 +62,13 @@ export function draw(t, dt) {
     orbitControl(); //Enable mouse movement in the scene
     ambientLight(198, 197, 139);  //Add some ambient light to the scene
 
-    directionalLight(255, 255, 255, 1, 1, -1); //Add a white directional light
+    directionalLight(198, 197, 139, 1, 1, -1); //Add a white directional light
 
     getAudioContext().resume()
     music.play();
-
+strokeWeight (0)
     //drawGrid(); //Draw the grid
-    drawAxes(); //Draw the axes
+   // drawAxes(); //Draw the axes
 
     push()
     translate(-1563, 0, 530)
@@ -487,7 +487,33 @@ function bb13() {
 
     pop()
 }
+//lights out
+function bb14() {
+    let x = 0
+    push()
+    translate(0, 25, 0)
+    texture(floor)
+    box(525, 1, 525); //Draw a box
+    pop()
+    push()
+    translate(0, -325, 0)
+    texture(tile)
+    box(525, 1, 525);
+    pop()
+    push()
+    while (x < 3) {
 
+        push()
+        translate(250, -150, 0)
+        texture(wall);
+        backwall(20, 350, 521)
+        pop()
+        rotateY(90)
+        x = x + 1
+    }
+    pop()
+
+}
 function backroom() {
     for (let x = 0; x < 20; x++) {
 
@@ -537,11 +563,17 @@ function backroom() {
             if (grid[x][z] == 13) {
                 bb13()
             }
+             if (grid[x][z] == 14) {
+                bb14()
+            }
 
             pop()
+   //console.log()
+
         }
     }
 }
+
 
 
 function doorway() {
@@ -568,7 +600,6 @@ function backwall(x, y, z) {
     
 }
 
-//if (move)
 
 
 
@@ -622,6 +653,12 @@ function move(dt) {
     cam.setPosition(position.x, position.y, position.z)
     cam.lookAt(veiw.x + position.x, position.y, veiw.z + position.z);
 
+    let gridX = position.x / 525;
+    let gridZ = position.z / 525
+
+    
+
+    //console(gridX, gridZ);
 }
 
 
