@@ -576,7 +576,7 @@ function backwall(x, y, z) {
     
 }
 
-if (move)
+//if (move)
 
 
 
