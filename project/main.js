@@ -84,7 +84,6 @@ export function preload() {
 }
 
 
-
 export function draw(t, dt) {
     background(198, 197, 139); //Clear the background to dark grey 
     orbitControl(); //Enable mouse movement in the scene
