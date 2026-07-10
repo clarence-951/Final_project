@@ -1,3 +1,4 @@
+import { vector } from "@/utils/vec3.js";
 let f = 30;
 let pos = vector(-900, 0, 2950);
 let disabled = false;
@@ -37,35 +38,39 @@ function monster(t) {
     fill(0, 0, 0, 0);
 
     let l = function (...n) {
-        n = n.map(i => i + Math.random() * 10 - 5);
+        n = n.map(x => x + noise(x,t*i,i)*40 + Math.random() * 2 );
         line(...n);
     }
 
-    let rf = [50, 0, 0];
+    let rf = [49, 0, 0];
     let lf = [-50, 0, -40];
-    let rk = [40, -100, 0];
+    let rk = [41, -102, 0];
     let lk = [-40, -100, 40];
-    let g = [0, -180, 0];
+    let g = [2, -180, 0];
 
-    let k = [0, -300, 0];
+    let c = [1, -250, 2];
+    let k = [3, -300, 0];
 
-    let rs = [40, -300, 0];
-    let ls = [-40, -300, 0];
+    let rs = [40, -304, 0];
+    let ls = [-44, -303, 0];
 
     let re = [100, -240, 0];
     let le = [-60, -200, 0];
 
     let rw = [120, -50, 60];
-    let lw = [-120, -20, 80];
+    let lw = [-101, -90, 60];
+    let lh = [-100,-80,120];
 
-    for (let i = 0; i < 6; i++) {
-        strokeWeight(Math.random() * 5); //Make it thin
+    let i = 0;
+    for ( i = 0; i < 6; i++) {
+        strokeWeight(i+1); //Make it thin
         l(...rf, ...rk);
         l(...rk, ...g);
 
         l(...lf, ...lk);
         l(...lk, ...g);
-        l(...g, ...k);
+        l(...g, ...c);
+        l(...c, ...k);
 
         l(...k, ...rs)
         l(...k, ...ls);
@@ -75,8 +80,9 @@ function monster(t) {
 
         l(...ls, ...le);
         l(...le, ...lw);
+        l(...lw, ...lh);
         push();
-        translate(0, -330, 0);
+        translate(20, -320, 20);
         scale(1.2, .8, 1);
         rotateX(Math.random() * 50);
         rotateY(Math.random() * 50);
@@ -84,7 +90,6 @@ function monster(t) {
         scale(Math.random() / 4 + 1);
         sphere(40, 3, 3);
         pop();
-
     }
 
 
