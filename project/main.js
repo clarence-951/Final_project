@@ -32,8 +32,8 @@ export function setup() {
         [9, r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), 7,],
         [9, r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), 11,],
         [9, r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), 11,],
-        [9, r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), 11,],
-        [9, r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), 11,],
+        [6, r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), 11,],
+        [7, r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), 11,],
         [9, r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), 11,],
         [9, r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), 11,],
         [9, r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), 11],
@@ -68,6 +68,7 @@ let wall;
 let tile;
 let floor;
 let music;
+let theme;
 export function preload() {
     wall = loadImage("backroomwall.png");
     floor = loadImage("floor.png");
@@ -76,6 +77,9 @@ export function preload() {
     music = loadSound('wandering.mp3')
     music.setLoop(true);
     music.playMode("untilDone")
+    theme = loadSound('memory.mp3')
+    theme.setLoop(true)
+    theme.playMode("untilDone")
 
 }
 
@@ -87,7 +91,10 @@ export function draw(t, dt) {
     ambientLight(198, 197, 139);  //Add some ambient light to the scene
 
     directionalLight(198, 197, 139, 1, 1, -1); //Add a white directional light
-
+if (t >= 27) {
+  getAudioContext().resume()
+    theme.play();
+}
     getAudioContext().resume()
     music.play();
     strokeWeight(0)
@@ -102,6 +109,9 @@ export function draw(t, dt) {
     threshold()
 
     move(dt)
+
+    checkPosition(t, position);
+
 }
 
 
@@ -512,32 +522,6 @@ function bb13() {
     pop()
 }
 //lights out
-function bb14() {
-    let x = 0
-    push()
-    translate(0, 25, 0)
-    texture(floor)
-    box(525, 1, 525); //Draw a box
-    pop()
-    push()
-    translate(0, -325, 0)
-    texture(tile)
-    box(525, 1, 525);
-    pop()
-    push()
-    while (x < 3) {
-
-        push()
-        translate(250, -150, 0)
-        texture(wall);
-        backwall(20, 350, 521)
-        pop()
-        rotateY(90)
-        x = x + 1
-    }
-    pop()
-
-}
 
 function backroom() {
     for (let x = 0; x < 40; x++) {
@@ -551,7 +535,7 @@ function backroom() {
             let dx = Math.abs(roomX - position.x);
             let dz = Math.abs(roomZ - position.z);
            // console.log(dx,dz);
-            if (dx < 5000 && dz < 5000) {
+            if (dx < 8000 && dz < 8000) {
 
 
                 if (grid[x][z] == 0) {
